@@ -195,3 +195,4 @@ class ARButton {
 
 }
 
+export { ARButton };
