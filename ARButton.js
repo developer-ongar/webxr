@@ -124,3 +124,11 @@ class ARButton {
 			button.onclick = null;
 
 		}
+		
+		function showARNotSupported() {
+
+			disableButton();
+
+			button.textContent = 'AR NOT SUPPORTED';
+
+		}
