@@ -149,3 +149,35 @@ class ARButton {
 			element.style.zIndex = '999';
 
 		}
+		
+		if ( 'xr' in navigator ) {
+
+			button.id = 'ARButton';
+			button.style.display = 'none';
+
+			stylizeElement( button );
+
+			navigator.xr.isSessionSupported( 'immersive-ar' ).then( function ( supported ) {
+
+				supported ? showStartAR() : showARNotSupported();
+
+			} ).catch( showARNotSupported );
+
+			return button;
+
+		} else {
+
+			const message = document.createElement( 'a' );
+
+			if ( window.isSecureContext === false ) {
+
+				message.href = document.location.href.replace( /^http:/, 'https:' );
+				message.innerHTML = 'WEBXR NEEDS HTTPS'; // TODO Improve message
+
+			} else {
+
+				message.href = 'https://immersiveweb.dev/';
+				message.innerHTML = 'WEBXR NOT AVAILABLE';
+
+			}
+
