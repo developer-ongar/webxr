@@ -87,3 +87,25 @@ class ARButton {
 				button.style.opacity = '1.0';
 
 			};
+			
+			button.onmouseleave = function () {
+
+				button.style.opacity = '0.5';
+
+			};
+
+			button.onclick = function () {
+
+				if ( currentSession === null ) {
+
+					navigator.xr.requestSession( 'immersive-ar', sessionInit ).then( onSessionStarted );
+
+				} else {
+
+					currentSession.end();
+
+				}
+
+			};
+
+		}
