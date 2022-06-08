@@ -180,4 +180,18 @@ class ARButton {
 				message.innerHTML = 'WEBXR NOT AVAILABLE';
 
 			}
+			
+			message.style.left = 'calc(50% - 90px)';
+			message.style.width = '180px';
+			message.style.textDecoration = 'none';
+
+			stylizeElement( message );
+
+			return message;
+
+		}
+
+	}
+
+}
 
