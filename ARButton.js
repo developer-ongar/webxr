@@ -41,3 +41,33 @@ class ARButton {
 				sessionInit.domOverlay = { root: overlay };
 
 			}
+			
+			//
+
+			let currentSession = null;
+
+			async function onSessionStarted( session ) {
+
+				session.addEventListener( 'end', onSessionEnded );
+
+				renderer.xr.setReferenceSpaceType( 'local' );
+
+				await renderer.xr.setSession( session );
+
+				button.textContent = 'STOP AR';
+				sessionInit.domOverlay.root.style.display = '';
+
+				currentSession = session;
+
+			}
+
+			function onSessionEnded( /*event*/ ) {
+
+				currentSession.removeEventListener( 'end', onSessionEnded );
+
+				button.textContent = 'START AR';
+				sessionInit.domOverlay.root.style.display = 'none';
+
+				currentSession = null;
+
+			}
