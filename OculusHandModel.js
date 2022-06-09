@@ -50,3 +50,18 @@ class OculusHandModel extends Object3D {
 		}
 
 	}
+	
+	getPointerPosition() {
+
+		const indexFingerTip = this.controller.joints[ POINTING_JOINT ];
+		if ( indexFingerTip ) {
+
+			return indexFingerTip.position;
+
+		} else {
+
+			return null;
+
+		}
+
+	}
