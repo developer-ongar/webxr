@@ -104,3 +104,5 @@ class OculusHandModel extends Object3D {
 	}
 
 }
+
+export { OculusHandModel };
