@@ -29,3 +29,12 @@ class OculusHandModel extends Object3D {
 			}
 
 		} );
+		
+		controller.addEventListener( 'disconnected', () => {
+
+			this.clear();
+			this.motionController = null;
+
+		} );
+
+	}
