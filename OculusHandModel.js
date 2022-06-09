@@ -94,3 +94,13 @@ class OculusHandModel extends Object3D {
 			button.onClear();
 
 		}
+		
+		if ( button.isPressed() ) {
+
+			button.whilePressed();
+
+		}
+
+	}
+
+}
