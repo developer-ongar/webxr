@@ -65,3 +65,20 @@ class OculusHandModel extends Object3D {
 		}
 
 	}
+	
+	intersectBoxObject( boxObject ) {
+
+		const pointerPosition = this.getPointerPosition();
+		if ( pointerPosition ) {
+
+			const indexSphere = new Sphere( pointerPosition, TOUCH_RADIUS );
+			const box = new Box3().setFromObject( boxObject );
+			return indexSphere.intersectsBox( box );
+
+		} else {
+
+			return false;
+
+		}
+
+	}
