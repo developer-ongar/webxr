@@ -38,3 +38,15 @@ class OculusHandModel extends Object3D {
 		} );
 
 	}
+	
+	updateMatrixWorld( force ) {
+
+		super.updateMatrixWorld( force );
+
+		if ( this.motionController ) {
+
+			this.motionController.updateMesh();
+
+		}
+
+	}
