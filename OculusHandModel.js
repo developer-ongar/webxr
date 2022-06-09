@@ -82,3 +82,15 @@ class OculusHandModel extends Object3D {
 		}
 
 	}
+	
+	checkButton( button ) {
+
+		if ( this.intersectBoxObject( button ) ) {
+
+			button.onPress();
+
+		} else {
+
+			button.onClear();
+
+		}
