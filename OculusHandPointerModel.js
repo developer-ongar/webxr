@@ -187,3 +187,37 @@ class OculusHandPointerModel extends THREE.Object3D {
 			);
 
 		}
+		
+		indices.push( frontCenterIndex, 0, POINTER_SEGMENTS - 1 );
+		indices.push(
+			rearCenterIndex,
+			POINTER_SEGMENTS * ( POINTER_RINGS + 1 ) - 1,
+			POINTER_SEGMENTS * POINTER_RINGS
+		);
+
+		const material = new THREE.MeshBasicMaterial();
+		material.transparent = true;
+		material.opacity = POINTER_OPACITY_MIN;
+
+		this.pointerGeometry.setIndex( indices );
+
+		this.pointerMesh = new THREE.Mesh( this.pointerGeometry, material );
+
+		this.pointerMesh.position.set( 0, 0, - 1 * POINTER_REAR_RADIUS );
+		this.pointerObject = new THREE.Object3D();
+		this.pointerObject.add( this.pointerMesh );
+
+		this.raycaster = new THREE.Raycaster();
+
+		// create cursor
+		const cursorGeometry = new THREE.SphereGeometry( CURSOR_RADIUS, 10, 10 );
+		const cursorMaterial = new THREE.MeshBasicMaterial();
+		cursorMaterial.transparent = true;
+		cursorMaterial.opacity = POINTER_OPACITY_MIN;
+
+		this.cursorObject = new THREE.Mesh( cursorGeometry, cursorMaterial );
+		this.pointerObject.add( this.cursorObject );
+
+		this.add( this.pointerObject );
+
+	}
