@@ -235,3 +235,66 @@ class OculusHandPointerModel extends THREE.Object3D {
 		}
 
 	}
+	
+	_updatePointer() {
+
+		this.pointerObject.visible = this.controller.visible;
+		const indexTip = this.hand.joints[ 'index-finger-tip' ];
+		const thumbTip = this.hand.joints[ 'thumb-tip' ];
+		const distance = indexTip.position.distanceTo( thumbTip.position );
+		const position = indexTip.position
+			.clone()
+			.add( thumbTip.position )
+			.multiplyScalar( 0.5 );
+		this.pointerObject.position.copy( position );
+		this.pointerObject.quaternion.copy( this.controller.quaternion );
+
+		this.pinched = distance <= PINCH_THRESHOLD;
+
+		const pinchScale = ( distance - PINCH_MIN ) / ( PINCH_MAX - PINCH_MIN );
+		const focusScale = ( distance - PINCH_MIN ) / ( PINCH_THRESHOLD - PINCH_MIN );
+		if ( pinchScale > 1 ) {
+
+			this._updatePointerVertices( POINTER_REAR_RADIUS );
+			this.pointerMesh.position.set( 0, 0, - 1 * POINTER_REAR_RADIUS );
+			this.pointerMesh.material.opacity = POINTER_OPACITY_MIN;
+
+		} else if ( pinchScale > 0 ) {
+
+			const rearRadius =
+        ( POINTER_REAR_RADIUS - POINTER_REAR_RADIUS_MIN ) * pinchScale +
+        POINTER_REAR_RADIUS_MIN;
+			this._updatePointerVertices( rearRadius );
+			if ( focusScale < 1 ) {
+
+				this.pointerMesh.position.set(
+					0,
+					0,
+					- 1 * rearRadius - ( 1 - focusScale ) * POINTER_ADVANCE_MAX
+				);
+				this.pointerMesh.material.opacity =
+          POINTER_OPACITY_MIN +
+          ( 1 - focusScale ) * ( POINTER_OPACITY_MAX - POINTER_OPACITY_MIN );
+
+			} else {
+
+				this.pointerMesh.position.set( 0, 0, - 1 * rearRadius );
+				this.pointerMesh.material.opacity = POINTER_OPACITY_MIN;
+
+			}
+
+		} else {
+
+			this._updatePointerVertices( POINTER_REAR_RADIUS_MIN );
+			this.pointerMesh.position.set(
+				0,
+				0,
+				- 1 * POINTER_REAR_RADIUS_MIN - POINTER_ADVANCE_MAX
+			);
+			this.pointerMesh.material.opacity = POINTER_OPACITY_MAX;
+
+		}
+
+		this.cursorObject.material.opacity = this.pointerMesh.material.opacity;
+
+	}
