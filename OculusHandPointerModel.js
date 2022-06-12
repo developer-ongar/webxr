@@ -221,3 +221,17 @@ class OculusHandPointerModel extends THREE.Object3D {
 		this.add( this.pointerObject );
 
 	}
+	
+	_updateRaycaster() {
+
+		if ( this.raycaster ) {
+
+			const pointerMatrix = this.pointerObject.matrixWorld;
+			const tempMatrix = new THREE.Matrix4();
+			tempMatrix.identity().extractRotation( pointerMatrix );
+			this.raycaster.ray.origin.setFromMatrixPosition( pointerMatrix );
+			this.raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
+
+		}
+
+	}
