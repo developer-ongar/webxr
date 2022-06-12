@@ -100,3 +100,27 @@ class OculusHandPointerModel extends THREE.Object3D {
 			);
 
 		}
+		
+		// front and rear face center vertices
+		const frontCenterIndex = POINTER_SEGMENTS * ( 1 + POINTER_RINGS );
+		const rearCenterIndex = POINTER_SEGMENTS * ( 1 + POINTER_RINGS ) + 1;
+		const frontCenter = new THREE.Vector3(
+			0,
+			0,
+			- 1 * ( POINTER_LENGTH - rearRadius )
+		);
+		vertices[ frontCenterIndex * 3 ] = frontCenter.x;
+		vertices[ frontCenterIndex * 3 + 1 ] = frontCenter.y;
+		vertices[ frontCenterIndex * 3 + 2 ] = frontCenter.z;
+		const rearCenter = new THREE.Vector3( 0, 0, rearRadius );
+		vertices[ rearCenterIndex * 3 ] = rearCenter.x;
+		vertices[ rearCenterIndex * 3 + 1 ] = rearCenter.y;
+		vertices[ rearCenterIndex * 3 + 2 ] = rearCenter.z;
+
+		this.pointerGeometry.setAttribute(
+			'position',
+			new THREE.Float32BufferAttribute( vertices, 3 )
+		);
+		// verticesNeedUpdate = true;
+
+	}
