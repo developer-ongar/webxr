@@ -124,3 +124,51 @@ class OculusHandPointerModel extends THREE.Object3D {
 		// verticesNeedUpdate = true;
 
 	}
+	
+	createPointer() {
+
+		var i, j;
+		const vertices = new Array(
+			( ( POINTER_RINGS + 1 ) * POINTER_SEGMENTS + 2 ) * 3
+		).fill( 0 );
+		// const vertices = [];
+		const indices = [];
+		this.pointerGeometry = new THREE.BufferGeometry();
+
+		this.pointerGeometry.setAttribute(
+			'position',
+			new THREE.Float32BufferAttribute( vertices, 3 )
+		);
+
+		this._updatePointerVertices( POINTER_REAR_RADIUS );
+
+		// construct faces to connect rings
+		for ( i = 0; i < POINTER_RINGS; i ++ ) {
+
+			for ( j = 0; j < POINTER_SEGMENTS - 1; j ++ ) {
+
+				indices.push(
+					i * POINTER_SEGMENTS + j,
+					i * POINTER_SEGMENTS + j + 1,
+					( i + 1 ) * POINTER_SEGMENTS + j
+				);
+				indices.push(
+					i * POINTER_SEGMENTS + j + 1,
+					( i + 1 ) * POINTER_SEGMENTS + j + 1,
+					( i + 1 ) * POINTER_SEGMENTS + j
+				);
+
+			}
+
+			indices.push(
+				( i + 1 ) * POINTER_SEGMENTS - 1,
+				i * POINTER_SEGMENTS,
+				( i + 2 ) * POINTER_SEGMENTS - 1
+			);
+			indices.push(
+				i * POINTER_SEGMENTS,
+				( i + 1 ) * POINTER_SEGMENTS,
+				( i + 2 ) * POINTER_SEGMENTS - 1
+			);
+
+		}
