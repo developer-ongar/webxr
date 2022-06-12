@@ -298,3 +298,75 @@ class OculusHandPointerModel extends THREE.Object3D {
 		this.cursorObject.material.opacity = this.pointerMesh.material.opacity;
 
 	}
+	
+	updateMatrixWorld( force ) {
+
+		super.updateMatrixWorld( force );
+		if ( this.pointerGeometry ) {
+
+			this._updatePointer();
+			this._updateRaycaster();
+
+		}
+
+	}
+
+	isPinched() {
+
+		return this.pinched;
+
+	}
+
+	setAttached( attached ) {
+
+		this.attached = attached;
+
+	}
+
+	isAttached() {
+
+		return this.attached;
+
+	}
+
+	intersectObject( object ) {
+
+		if ( this.raycaster ) {
+
+			return this.raycaster.intersectObject( object );
+
+		}
+
+	}
+
+	intersectObjects( objects ) {
+
+		if ( this.raycaster ) {
+
+			return this.raycaster.intersectObjects( objects );
+
+		}
+
+	}
+
+	checkIntersections( objects ) {
+
+		if ( this.raycaster && ! this.attached ) {
+
+			const intersections = this.raycaster.intersectObjects( objects );
+			const direction = new THREE.Vector3( 0, 0, - 1 );
+			if ( intersections.length > 0 ) {
+
+				const intersection = intersections[ 0 ];
+				const distance = intersection.distance;
+				this.cursorObject.position.copy( direction.multiplyScalar( distance ) );
+
+			} else {
+
+				this.cursorObject.position.copy( direction.multiplyScalar( CURSOR_MAX_DISTANCE ) );
+
+			}
+
+		}
+
+	}
