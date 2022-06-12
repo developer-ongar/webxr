@@ -370,3 +370,16 @@ class OculusHandPointerModel extends THREE.Object3D {
 		}
 
 	}
+	
+	setCursor( distance ) {
+
+		const direction = new THREE.Vector3( 0, 0, - 1 );
+		if ( this.raycaster && ! this.attached ) {
+
+			this.cursorObject.position.copy( direction.multiplyScalar( distance ) );
+
+		}
+
+	}
+
+}
