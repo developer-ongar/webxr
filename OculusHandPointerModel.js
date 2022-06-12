@@ -58,3 +58,18 @@ class OculusHandPointerModel extends THREE.Object3D {
 		} );
 
 	}
+	
+	_drawVerticesRing( vertices, baseVector, ringIndex ) {
+
+		const segmentVector = baseVector.clone();
+		for ( var i = 0; i < POINTER_SEGMENTS; i ++ ) {
+
+			segmentVector.applyAxisAngle( ZAXIS, ( Math.PI * 2 ) / POINTER_SEGMENTS );
+			const vid = ringIndex * POINTER_SEGMENTS + i;
+			vertices[ 3 * vid ] = segmentVector.x;
+			vertices[ 3 * vid + 1 ] = segmentVector.y;
+			vertices[ 3 * vid + 2 ] = segmentVector.z;
+
+		}
+
+	}
