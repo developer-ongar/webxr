@@ -383,3 +383,6 @@ class OculusHandPointerModel extends THREE.Object3D {
 	}
 
 }
+
+export { OculusHandPointerModel };
+
