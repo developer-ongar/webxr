@@ -172,3 +172,18 @@ class OculusHandPointerModel extends THREE.Object3D {
 			);
 
 		}
+		
+		// construct front and rear face
+		const frontCenterIndex = POINTER_SEGMENTS * ( 1 + POINTER_RINGS );
+		const rearCenterIndex = POINTER_SEGMENTS * ( 1 + POINTER_RINGS ) + 1;
+
+		for ( i = 0; i < POINTER_SEGMENTS - 1; i ++ ) {
+
+			indices.push( frontCenterIndex, i + 1, i );
+			indices.push(
+				rearCenterIndex,
+				i + POINTER_SEGMENTS * POINTER_RINGS,
+				i + POINTER_SEGMENTS * POINTER_RINGS + 1
+			);
+
+		}
