@@ -73,3 +73,30 @@ class OculusHandPointerModel extends THREE.Object3D {
 		}
 
 	}
+	
+	_updatePointerVertices( rearRadius ) {
+
+		const vertices = this.pointerGeometry.attributes.position.array;
+		// first ring for front face
+		const frontFaceBase = new THREE.Vector3(
+			POINTER_FRONT_RADIUS,
+			0,
+			- 1 * ( POINTER_LENGTH - rearRadius )
+		);
+		this._drawVerticesRing( vertices, frontFaceBase, 0 );
+
+		// rings for rear hemisphere
+		const rearBase = new THREE.Vector3(
+			Math.sin( ( Math.PI * POINTER_HEMISPHERE_ANGLE ) / 180 ) * rearRadius,
+			Math.cos( ( Math.PI * POINTER_HEMISPHERE_ANGLE ) / 180 ) * rearRadius,
+			0
+		);
+		for ( var i = 0; i < POINTER_RINGS; i ++ ) {
+
+			this._drawVerticesRing( vertices, rearBase, i + 1 );
+			rearBase.applyAxisAngle(
+				YAXIS,
+				( Math.PI * POINTER_HEMISPHERE_ANGLE ) / 180 / ( POINTER_RINGS * - 2 )
+			);
+
+		}
